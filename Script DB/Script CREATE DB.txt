@@ -1,0 +1,27 @@
+CREATE TABLE Animal (
+numero_identificacao INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+nome_animal varchar(40),
+data_nascimento_animal date NOT NULL,
+sexo_animal char(1) NOT NULL,
+identificacao_mae integer(6),
+identificacao_pai integer(6),
+id_inventario integer(10) NOT NULL,
+FOREIGN KEY(id_inventario) REFERENCES Inventario(id_inventario),
+FOREIGN KEY(identificacao_pai) REFERENCES Animal(numero_identificacao),
+FOREIGN KEY(identificacao_mae) REFERENCES Animal(numero_identificacao));
+CREATE TABLE Inventario (
+id_inventario INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+email_usuario varchar(40) NOT NULL,
+FOREIGN KEY(email_usuario) REFERENCES Usuario(email_usuario));
+CREATE TABLE Raca (
+id_raca INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+nome_raca varchar(40) NOT NULL UNIQUE);
+CREATE TABLE Raca_Animal (id_raca integer(2) NOT NULL,
+numero_identificacao integer(6) NOT NULL,
+PRIMARY KEY (id_raca, numero_identificacao),
+FOREIGN KEY(numero_identificacao) REFERENCES Animal(numero_identificacao),
+FOREIGN KEY(id_raca) REFERENCES Raca(id_raca));
+CREATE TABLE Usuario (
+email_usuario varchar(40) NOT NULL,
+senha_usuario varchar(40) NOT NULL,
+PRIMARY KEY (email_usuario));
