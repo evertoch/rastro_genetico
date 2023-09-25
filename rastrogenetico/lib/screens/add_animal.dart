@@ -23,7 +23,10 @@ class _AddAnimalDialogState extends State<AddAnimalDialog> {
   final TextEditingController dataNascimentoController = TextEditingController();
 
   List<Raca>? allowedRacas;
+  List<Animal>? allowedAnimal;
   Raca? selectedRaca;
+  Animal? selectedAnimalMae;
+  Animal? selectedAnimalPai;
 
   @override
   void initState() {
@@ -35,6 +38,13 @@ class _AddAnimalDialogState extends State<AddAnimalDialog> {
     final database = await $FloorAppDatabase.databaseBuilder('rastrogenetico.db').build();
     final racaDao = database.racaDao;
     allowedRacas = await racaDao.findAllRaca();
+    setState(() {});
+  }
+
+  Future<void> loadAllowedAnimal() async {
+    final database = await $FloorAppDatabase.databaseBuilder('rastrogenetico.db').build();
+    final animalDao = database.animalDao;
+    allowedAnimal = await animalDao.findAllAnimal();
     setState(() {});
   }
 
@@ -119,6 +129,64 @@ class _AddAnimalDialogState extends State<AddAnimalDialog> {
 
           const SizedBox(height: 20),
       
+          SizedBox(
+            width: double.infinity,            
+            child: DropdownButtonFormField<Raca>(
+              isExpanded: true, 
+              icon: const Icon(Icons.receipt),
+              hint: const Text("Escolha a raça do animal:"),
+              decoration: InputDecoration(
+                label: const Text("Raça do animal"),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                )
+              ),
+              value: selectedRaca,
+              onChanged: (Raca? value) {
+                setState(() {
+                  selectedRaca = value;
+                });
+              },
+              items: allowedRacas!.map((Raca raca) {
+                return DropdownMenuItem<Raca>(
+                  value: raca,
+                  child: Text(raca.nome.toString()),
+                );
+              }).toList(),                
+            )
+          ),
+
+          const SizedBox(height: 20),
+
+          SizedBox(
+            width: double.infinity,            
+            child: DropdownButtonFormField<Animal>(
+              isExpanded: true, 
+              icon: const Icon(Icons.receipt),
+              hint: const Text("Escolha o animal mãe:"),
+              decoration: InputDecoration(
+                label: const Text("Animal mãe"),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(6),
+                )
+              ),
+              value: selectedAnimalMae,
+              onChanged: (Animal? value) {
+                setState(() {
+                  selectedAnimalMae = value;
+                });
+              },
+              items: allowedAnimal!.map((Animal animal) {
+                return DropdownMenuItem<Animal>(
+                  value: animal,
+                  child: Text(animal.nome.toString()),
+                );
+              }).toList(),                
+            )
+          ),
+
+          const SizedBox(height: 20),
+
           SizedBox(
             width: double.infinity,            
             child: DropdownButtonFormField<Raca>(

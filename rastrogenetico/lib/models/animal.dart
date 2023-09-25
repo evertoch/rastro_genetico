@@ -10,8 +10,8 @@ class Animal {
   int? numeroMae;
   int? numeroPai;
 
-  Animal(
-      {this.id,
+  Animal({
+      this.id,
       this.nome,
       this.dataNascimento,
       this.raca,
